@@ -42,9 +42,15 @@ const ingredientsSlice = createSlice({
       });
   },
   selectors: {
-    getIngredientsWithSelector: (state) => state.ingredients
+    getIngredientsWithSelector: (state) => state.ingredients,
+    getLoadingStatus: (state) => state.loading,
+    getStateIngredients: (state) => state
   }
 });
 
 export default ingredientsSlice.reducer;
-export const { getIngredientsWithSelector } = ingredientsSlice.selectors;
+export const {
+  getIngredientsWithSelector,
+  getLoadingStatus,
+  getStateIngredients
+} = ingredientsSlice.selectors;

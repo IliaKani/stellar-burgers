@@ -3,16 +3,24 @@ import { useInView } from 'react-intersection-observer';
 
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
-
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../services/store';
+import { getIngredientsWithSelector } from '../../services/slices/IngredientsSlice';
+import { AppDispatch } from '../../services/store';
+import { Preloader } from '../../components/ui';
+import { getLoadingStatus } from '../../services/slices/IngredientsSlice';
 
 export const BurgerIngredients: FC = () => {
-  /** TODO: взять переменные из стора */
+  /** DONE: взять переменные из стора */
 
-  const ingredients = useSelector(
-    (state: RootState) => state.ingredients.ingredients
-  );
+  const ingredients = useSelector(getIngredientsWithSelector);
+
+  const isLoading = useSelector(getLoadingStatus);
+
+  if (isLoading) {
+    return <Preloader />;
+  }
 
   const buns = ingredients.filter((item) => item.type === 'bun');
   const mains = ingredients.filter((item) => item.type === 'main');
@@ -55,7 +63,7 @@ export const BurgerIngredients: FC = () => {
       titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  return null;
+  // return null;
 
   return (
     <BurgerIngredientsUI
