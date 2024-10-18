@@ -43,14 +43,10 @@ const ingredientsSlice = createSlice({
   },
   selectors: {
     getIngredientsWithSelector: (state) => state.ingredients,
-    getLoadingStatus: (state) => state.loading,
-    getStateIngredients: (state) => state
+    getLoadingStatus: (state) => state.loading
   }
 });
 
 export default ingredientsSlice.reducer;
-export const {
-  getIngredientsWithSelector,
-  getLoadingStatus,
-  getStateIngredients
-} = ingredientsSlice.selectors;
+export const { getIngredientsWithSelector, getLoadingStatus } =
+  ingredientsSlice.selectors;

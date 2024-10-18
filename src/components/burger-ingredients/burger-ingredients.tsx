@@ -3,11 +3,8 @@ import { useInView } from 'react-intersection-observer';
 
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
-import { Link, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../services/store';
+import { useSelector } from 'react-redux';
 import { getIngredientsWithSelector } from '../../services/slices/IngredientsSlice';
-import { AppDispatch } from '../../services/store';
 import { Preloader } from '../../components/ui';
 import { getLoadingStatus } from '../../services/slices/IngredientsSlice';
 

@@ -12,9 +12,9 @@ export const IngredientDetails: FC = () => {
 
   const ingredients = useSelector(getIngredientsWithSelector);
 
-  const { id } = useParams();
+  const { id } = useParams(); // извлекаем параметр id из url
 
-  const ingredientData = ingredients.find((item) => item._id === id);
+  const ingredientData = ingredients.find((item) => item._id === id); //в переменной вернули ингредиент, id которого совпадает с id params url
 
   if (!ingredientData) {
     return <Preloader />;

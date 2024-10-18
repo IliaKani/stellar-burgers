@@ -1,9 +1,15 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { getConstructorItems } from '../../services/slices/BurgerConstructorSlice';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
+  /** TODO: взять переменные constructorItems, orderRequest! и orderModalData! из стора */
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // const constructorItems = useSelector(getConstructorItems);
   const constructorItems = {
     bun: {
       price: 0
@@ -29,8 +35,6 @@ export const BurgerConstructor: FC = () => {
       ),
     [constructorItems]
   );
-
-  // return null;
 
   return (
     <BurgerConstructorUI
