@@ -2,19 +2,17 @@ import { forwardRef, useMemo } from 'react';
 import { TIngredientsCategoryProps } from './type';
 import { TIngredient } from '@utils-types';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
+import { useSelector } from 'react-redux';
+import { getConstructorItems } from '../../services/slices/BurgerConstructorSlice';
 
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
   TIngredientsCategoryProps
 >(({ title, titleRef, ingredients }, ref) => {
-  /** TODO: взять переменную из стора */
-  const burgerConstructor = {
-    bun: {
-      _id: ''
-    },
-    ingredients: []
-  };
+  /** DONE: взять переменную из стора */
+  const burgerConstructor = useSelector(getConstructorItems);
 
+  //счетчик для подсчета количества элементов массива конструктора, который мы получили выше. Если элемент === bun, то значение переменной counters*2
   const ingredientsCounters = useMemo(() => {
     const { bun, ingredients } = burgerConstructor;
     const counters: { [key: string]: number } = {};
@@ -23,7 +21,7 @@ export const IngredientsCategory = forwardRef<
       counters[ingredient._id]++;
     });
     if (bun) counters[bun._id] = 2;
-    return counters;
+    return counters; //объект counters содержит точное количество каждого ингредиента
   }, [burgerConstructor]);
 
   return (

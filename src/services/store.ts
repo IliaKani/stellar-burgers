@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from '@reduxjs/toolkit';
 import ingredientsReducer from './slices/IngredientsSlice';
 import burgerConstructorSlice from './slices/BurgerConstructorSlice';
+import userStateSlice from './slices/UserInfoSlice';
 
 import {
   TypedUseSelectorHook,
@@ -11,7 +12,8 @@ import {
 
 const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
-  ingredientsConstructor: burgerConstructorSlice
+  burgerconstructor: burgerConstructorSlice,
+  userstate: userStateSlice
 }); // Заменить на импорт настоящего редьюсера inPROGRESS
 
 const store = configureStore({

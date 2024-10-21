@@ -8,6 +8,7 @@ import { getIngredientsWithSelector } from '../../services/slices/IngredientsSli
 import { Preloader } from '../../components/ui';
 import { getLoadingStatus } from '../../services/slices/IngredientsSlice';
 
+//компонент-обертка для описания логики отображения списка ингридиентов, логика передается в следующий компонент UI для последующего рендера
 export const BurgerIngredients: FC = () => {
   /** DONE: взять переменные из стора */
 
@@ -59,8 +60,6 @@ export const BurgerIngredients: FC = () => {
     if (tab === 'sauce')
       titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  // return null;
 
   return (
     <BurgerIngredientsUI

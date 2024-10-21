@@ -8,10 +8,12 @@ import {
   moveDownIngredient
 } from '../../services/slices/BurgerConstructorSlice';
 
+//компонент-обертка слогикой, которая передается в компонент UI для рендера
 export const BurgerConstructorElement: FC<BurgerConstructorElementProps> = memo(
   ({ ingredient, index, totalItems }) => {
     const dispatch = useDispatch();
 
+    //переменные содержат функции слайса конструктора бургера для перемещения в списке ингридиента или его удаления
     const handleMoveDown = () => {
       dispatch(moveDownIngredient(index));
     };

@@ -17,6 +17,7 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/slices/IngredientsSlice';
+import { userApi } from '../../services/slices/UserInfoSlice';
 import { AppDispatch } from '../../services/store';
 
 import { ProtectedRoute } from '../protected-route';
@@ -31,8 +32,10 @@ const App = () => {
   };
 
   const dispatch: AppDispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getIngredients());
+    dispatch(userApi());
   }, [dispatch]);
 
   return (
@@ -45,7 +48,7 @@ const App = () => {
         <Route
           path='/login'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Login />
             </ProtectedRoute>
           }
@@ -53,7 +56,7 @@ const App = () => {
         <Route
           path='/register'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Register />
             </ProtectedRoute>
           }
@@ -61,7 +64,7 @@ const App = () => {
         <Route
           path='/forgot-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <ForgotPassword />
             </ProtectedRoute>
           }
@@ -77,7 +80,7 @@ const App = () => {
         <Route
           path='/profile'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Profile />
             </ProtectedRoute>
           }
