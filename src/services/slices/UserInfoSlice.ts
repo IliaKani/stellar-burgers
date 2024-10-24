@@ -13,6 +13,8 @@ import {
   resetPasswordApi
 } from '@api';
 
+//todo!!! need to sort out with saving tokens!
+
 type TStateUser = {
   isAuthChecked: boolean; //флаг для статуса проверки токена пользователя
   isAuthenticated: boolean;
@@ -146,7 +148,7 @@ export const checkUserAuth = createAsyncThunk(
 );
 
 export const { authChecked } = userStateSlice.actions;
-export default userStateSlice.reducer;
+export default userStateSlice;
 
 export const {
   selectUser,
