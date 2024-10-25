@@ -10,6 +10,7 @@ const maxIngredients = 6;
 export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
   const location = useLocation();
 
+  //нужно подключить из стора еще ингридиенты, так как с сервера получаем только id ингридиентов
   /** TODO: взять переменную из стора */
   const ingredients: TIngredient[] = [];
 

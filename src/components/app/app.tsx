@@ -19,13 +19,14 @@ import { useEffect } from 'react';
 import { getIngredients } from '../../services/slices/IngredientsSlice';
 import { userApi } from '../../services/slices/UserInfoSlice';
 import { AppDispatch } from '../../services/store';
-
 import { ProtectedRoute } from '../protected-route';
 
 const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const background = location.state?.background;
+
+  const locationState = location.state as { background?: Location };
+  const background = locationState && location.state?.background;
 
   const closeModal = () => {
     navigate(-1);
@@ -72,7 +73,7 @@ const App = () => {
         <Route
           path='/reset-password'
           element={
-            <ProtectedRoute onlyUnAuth>
+            <ProtectedRoute>
               <ResetPassword />
             </ProtectedRoute>
           }
@@ -80,7 +81,7 @@ const App = () => {
         <Route
           path='/profile'
           element={
-            <ProtectedRoute onlyUnAuth>
+            <ProtectedRoute>
               <Profile />
             </ProtectedRoute>
           }
@@ -88,7 +89,7 @@ const App = () => {
         <Route
           path='/profile/orders'
           element={
-            <ProtectedRoute onlyUnAuth>
+            <ProtectedRoute>
               <ProfileOrders />
             </ProtectedRoute>
           }

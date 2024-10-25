@@ -87,7 +87,8 @@ export const burgerConstructorSlice = createSlice({
           ingredients[index + 1]
         ];
       }
-    }
+    },
+    clearOrder: (state) => initialState
   },
   extraReducers: (builder) => {
     builder
@@ -129,5 +130,6 @@ export const {
   addIngredient,
   removeIngredient,
   moveUpIngredient,
-  moveDownIngredient
+  moveDownIngredient,
+  clearOrder
 } = burgerConstructorSlice.actions;
