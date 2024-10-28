@@ -83,21 +83,21 @@ export const userStateSlice = createSlice({
           action.error.message || 'Failed to fetch register user ';
       })
       .addCase(logInUser.pending, (state) => {
-        state.isAuthenticated = false;
-        state.user = null;
+        state.loginUserError = null;
         state.loginUserRequest = true;
+        state.isAuthChecked = false;
       })
       .addCase(logInUser.fulfilled, (state, action) => {
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.loginUserRequest = false;
+        state.isAuthChecked = true;
       })
       .addCase(logInUser.rejected, (state, action) => {
-        state.isAuthenticated = false;
-        state.user = null;
+        state.loginUserRequest = false;
         state.loginUserError =
           action.error.message || 'Failed to fetch Log in user ';
-        state.loginUserRequest = false;
+        state.isAuthChecked = true;
       })
       .addCase(logOutUser.pending, (state) => {
         state.isAuthenticated = true;

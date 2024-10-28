@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeedsApi } from '@api';
 import { TOrder } from '@utils-types';
-import { stat } from 'fs';
 
 type TStateFeed = {
   orders: TOrder[];
@@ -28,16 +27,16 @@ export const feedDataSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getFeedData.pending, (state) => {
-        state.loading = false;
+        state.loading = true;
       })
       .addCase(getFeedData.fulfilled, (state, action) => {
         state.orders = action.payload.orders;
         state.total = action.payload.total;
         state.totalToday = action.payload.totalToday;
-        state.loading = true;
+        state.loading = false;
       })
       .addCase(getFeedData.rejected, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.error = action.error.message || 'Feed error';
       });
   },
