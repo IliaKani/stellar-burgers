@@ -13,6 +13,8 @@ import {
   resetPasswordApi
 } from '@api';
 
+import { TRegisterData } from '../../utils/burger-api';
+
 //todo!!! need to sort out with saving tokens!
 
 type TStateUser = {
@@ -32,13 +34,43 @@ const initialState: TStateUser = {
 };
 
 export const userApi = createAsyncThunk('user/userApi', getUserApi);
+
 export const toRegisterUser = createAsyncThunk(
   'user/register',
-  registerUserApi
-);
-export const logInUser = createAsyncThunk('user/login', loginUserApi);
+  async ({ email, password, name }: TRegisterData) => {
+    const data = await registerUserApi({ email, password, name });
 
-export const logOutUser = createAsyncThunk('user/logout', logoutApi);
+    setCookie('accessToken', data.accessToken);
+    localStorage.setItem('refreshToken', data.refreshToken);
+
+    return data.user;
+  }
+);
+
+export const logInUser = createAsyncThunk(
+  'user/login',
+  async ({ email, password }: Omit<TRegisterData, 'name'>) => {
+    const data = await loginUserApi({ email, password });
+
+    setCookie('accessToken', data.accessToken);
+    localStorage.setItem('refreshToken', data.refreshToken);
+
+    return data.user;
+  }
+);
+
+export const logOutUser = createAsyncThunk(
+  'user/logout',
+  async (_, { rejectWithValue }) => {
+    try {
+      await logoutApi();
+      deleteCookie('accessToken');
+      localStorage.clear();
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 
 export const updateUser = createAsyncThunk('user/update', updateUserApi);
 
@@ -75,7 +107,7 @@ export const userStateSlice = createSlice({
       })
       .addCase(toRegisterUser.fulfilled, (state, action) => {
         state.isAuthenticated = true;
-        state.user = action.payload.user;
+        state.user = action.payload;
       })
       .addCase(toRegisterUser.rejected, (state, action) => {
         state.isAuthenticated = false;
@@ -85,11 +117,10 @@ export const userStateSlice = createSlice({
       .addCase(logInUser.pending, (state) => {
         state.loginUserError = null;
         state.loginUserRequest = true;
-        state.isAuthChecked = false;
       })
       .addCase(logInUser.fulfilled, (state, action) => {
         state.isAuthenticated = true;
-        state.user = action.payload.user;
+        state.user = action.payload;
         state.loginUserRequest = false;
         state.isAuthChecked = true;
       })
@@ -101,15 +132,18 @@ export const userStateSlice = createSlice({
       })
       .addCase(logOutUser.pending, (state) => {
         state.isAuthenticated = true;
+        state.loginUserRequest = true;
       })
       .addCase(logOutUser.fulfilled, (state, action) => {
         state.isAuthenticated = false;
+        state.loginUserRequest = false;
         state.user = null;
         deleteCookie('accessToken');
         localStorage.removeItem('refreshToken');
       })
       .addCase(logOutUser.rejected, (state, action) => {
         state.isAuthenticated = false;
+        state.loginUserRequest = false;
         state.loginUserError =
           action.error.message || 'Failed to fetch Log Out user ';
       })

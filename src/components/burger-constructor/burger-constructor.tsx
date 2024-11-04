@@ -12,7 +12,9 @@ import {
 } from '../../services/slices/BurgerConstructorSlice';
 import {
   selectUser,
-  selectIsAuthChecked
+  selectIsAuthChecked,
+  selectIsAuthenticated,
+  checkUserAuth
 } from '../../services/slices/UserInfoSlice';
 
 export const BurgerConstructor: FC = () => {
@@ -22,7 +24,7 @@ export const BurgerConstructor: FC = () => {
   const constructorItems = useSelector(getConstructorItems);
   const orderRequest = useSelector(getOrderRequest);
   const orderModalData = useSelector(getOrderModalData);
-  const authorized = useSelector(selectIsAuthChecked); //TODO! разобраться с авторизацией
+  const authorized = useSelector(selectIsAuthenticated);
 
   const onOrderClick = () => {
     if (!authorized) {

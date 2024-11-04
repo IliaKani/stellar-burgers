@@ -14,16 +14,18 @@ import '../../index.css';
 import styles from './app.module.css';
 import { AppHeader, Modal, IngredientDetails, OrderInfo } from '@components';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/slices/IngredientsSlice';
 import { userApi } from '../../services/slices/UserInfoSlice';
 import { AppDispatch } from '../../services/store';
 import { ProtectedRoute } from '../protected-route';
+import { checkUserAuth } from '../../services/slices/UserInfoSlice';
 
 const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const locationState = location.state as { background?: Location };
   const background = locationState && location.state?.background;
@@ -32,11 +34,12 @@ const App = () => {
     navigate(-1);
   };
 
-  const dispatch: AppDispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getIngredients());
-    dispatch(userApi());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(checkUserAuth());
   }, [dispatch]);
 
   return (

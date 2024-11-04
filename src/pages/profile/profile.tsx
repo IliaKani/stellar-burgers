@@ -3,17 +3,14 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useSelector } from '../../services/store';
 import { selectUser, updateUser } from '../../services/slices/UserInfoSlice';
 import { useDispatch } from 'react-redux';
+import { TUser } from '../../utils/types';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
 
-  const user = useSelector(selectUser);
+  // const user = useSelector(selectUser);
   const dispatch = useDispatch();
-
-  // const user = {
-  //   name: '',
-  //   email: ''
-  // };
+  const user = useSelector(selectUser) as TUser;
 
   const [formValue, setFormValue] = useState({
     name: user.name,
@@ -27,7 +24,7 @@ export const Profile: FC = () => {
       name: user?.name || '',
       email: user?.email || ''
     }));
-  }, [user]);
+  }, []);
 
   const isFormChanged =
     formValue.name !== user?.name ||
