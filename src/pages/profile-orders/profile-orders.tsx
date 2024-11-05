@@ -10,7 +10,6 @@ import {
 import { Preloader } from '@ui';
 
 export const ProfileOrders: FC = () => {
-  /** DONE: взять переменную из стора */
   const dispatch = useDispatch();
   const isLoad = useSelector(getUserOrdersLoading);
 

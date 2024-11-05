@@ -10,8 +10,6 @@ import { getLoadingStatus } from '../../services/slices/IngredientsSlice';
 
 //компонент-обертка для описания логики отображения списка ингридиентов, логика передается в следующий компонент UI для последующего рендера
 export const BurgerIngredients: FC = () => {
-  /** DONE: взять переменные из стора */
-
   const ingredients = useSelector(getIngredientsWithSelector);
 
   const isLoading = useSelector(getLoadingStatus);

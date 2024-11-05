@@ -8,8 +8,6 @@ import { getIngredientsWithSelector } from '../../services/slices/IngredientsSli
 import styles from '../app/app.module.css';
 
 export const IngredientDetails: FC = () => {
-  /** DONE: взять переменную из стора */
-
   const ingredients = useSelector(getIngredientsWithSelector);
 
   const { id } = useParams(); // извлекаем параметр id из url

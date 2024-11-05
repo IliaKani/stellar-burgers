@@ -8,7 +8,6 @@ import { useSelector } from '../../services/store';
 import { useParams } from 'react-router-dom';
 
 export const OrderInfo: FC = () => {
-  /** DONE: взять переменные orderData и ingredients из стора */
   const params = useParams();
   const orders = useSelector(getFeedOrders);
 

@@ -15,8 +15,6 @@ import {
 
 import { TRegisterData } from '../../utils/burger-api';
 
-//todo!!! need to sort out with saving tokens!
-
 type TStateUser = {
   isAuthChecked: boolean; //флаг для статуса проверки токена пользователя
   isAuthenticated: boolean;
@@ -88,11 +86,13 @@ export const userStateSlice = createSlice({
         state.isAuthenticated = false;
         state.loginUserError = null;
         state.user = null;
+        state.loginUserRequest = true;
       })
       .addCase(userApi.fulfilled, (state, action) => {
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.isAuthChecked = true;
+        state.loginUserRequest = false;
       })
       .addCase(userApi.rejected, (state, action) => {
         state.loginUserError =
@@ -100,19 +100,23 @@ export const userStateSlice = createSlice({
         state.isAuthenticated = false;
         state.user = null;
         state.isAuthChecked = true;
+        state.loginUserRequest = false;
       })
       .addCase(toRegisterUser.pending, (state) => {
         state.isAuthenticated = false;
         state.user = null;
+        state.loginUserRequest = true;
       })
       .addCase(toRegisterUser.fulfilled, (state, action) => {
         state.isAuthenticated = true;
         state.user = action.payload;
+        state.loginUserRequest = false;
       })
       .addCase(toRegisterUser.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.loginUserError =
           action.error.message || 'Failed to fetch register user ';
+        state.loginUserRequest = false;
       })
       .addCase(logInUser.pending, (state) => {
         state.loginUserError = null;
@@ -149,14 +153,17 @@ export const userStateSlice = createSlice({
       })
       .addCase(updateUser.pending, (state) => {
         state.isAuthenticated = true;
+        state.loginUserRequest = true;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.isAuthenticated = true;
         state.user = action.payload.user;
+        state.loginUserRequest = false;
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.loginUserError =
           action.error.message || 'Failed to fetch update user ';
+        state.loginUserRequest = false;
       });
   },
   selectors: {

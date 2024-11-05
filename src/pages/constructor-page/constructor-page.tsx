@@ -10,7 +10,6 @@ import { RootState } from '../../services/store';
 import { getLoadingStatus } from '../../services/slices/IngredientsSlice';
 
 export const ConstructorPage: FC = () => {
-  /** DONE: взять переменную из стора */
   const loadingStatus = useSelector(getLoadingStatus);
   const isIngredientsLoading = loadingStatus;
 
