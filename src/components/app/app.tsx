@@ -8,7 +8,7 @@ import {
   Profile,
   ProfileOrders,
   NotFound404
-} from '@pages';
+} from '@pages'; // Импортируем страницы для маршрутизации
 
 import '../../index.css';
 import styles from './app.module.css';
@@ -17,27 +17,29 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/slices/IngredientsSlice';
-import { userApi } from '../../services/slices/UserInfoSlice';
-import { AppDispatch } from '../../services/store';
 import { ProtectedRoute } from '../protected-route';
 import { checkUserAuth } from '../../services/slices/UserInfoSlice';
 
 const App = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const dispatch = useDispatch();
+  const navigate = useNavigate(); // Инициализируем хук для навигации
+  const location = useLocation(); // Инициализируем хук для получения текущего местоположения
+  const dispatch = useDispatch(); // Инициализируем dispatch для вызова экшенов
 
+  // Извлекаем состояние из текущего местоположения
   const locationState = location.state as { background?: Location };
+  // Проверяем, есть ли фоновое состояние
   const background = locationState && location.state?.background;
 
   const closeModal = () => {
     navigate(-1);
   };
 
+  // При первом рендере компонента запрашиваем ингредиенты с сервера
   useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
 
+  // При первом рендере компонента проверяем авторизацию пользователя
   useEffect(() => {
     dispatch(checkUserAuth());
   }, [dispatch]);

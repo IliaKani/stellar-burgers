@@ -1,15 +1,15 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
-import { useSelector } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store';
 import {
   selectUser,
   updateUser,
   selectloginUserRequest
 } from '../../services/slices/UserInfoSlice';
-import { useDispatch } from '../../services/store';
 import { TUser } from '../../utils/types';
 import { Preloader } from '@ui';
 
+//компонент страницы ЛК
 export const Profile: FC = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser) as TUser;

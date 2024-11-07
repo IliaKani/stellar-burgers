@@ -8,6 +8,7 @@ import {
 } from '../../services/slices/UserInfoSlice';
 import { Preloader } from '@ui';
 
+//компонент страницы регистрации нового пользователя
 export const Register: FC = () => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');

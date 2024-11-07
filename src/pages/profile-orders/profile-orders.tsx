@@ -9,15 +9,15 @@ import {
 } from '../../services/slices/UserOrdersHistory';
 import { Preloader } from '@ui';
 
+//компонент страницы истории заказов
 export const ProfileOrders: FC = () => {
   const dispatch = useDispatch();
   const isLoad = useSelector(getUserOrdersLoading);
+  const orders: TOrder[] = useSelector(getUserOrdersHistory);
 
   useEffect(() => {
     dispatch(ordersHistory());
   }, []);
-
-  const orders: TOrder[] = useSelector(getUserOrdersHistory);
 
   if (isLoad) {
     return <Preloader />;

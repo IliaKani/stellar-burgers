@@ -17,34 +17,40 @@ import {
   checkUserAuth
 } from '../../services/slices/UserInfoSlice';
 
+// Компонент, отвечающий за работу конструктора бургера
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const constructorItems = useSelector(getConstructorItems);
-  const orderRequest = useSelector(getOrderRequest);
-  const orderModalData = useSelector(getOrderModalData);
-  const authorized = useSelector(selectIsAuthenticated);
 
+  const constructorItems = useSelector(getConstructorItems); // Получаем ингредиенты конструктора из Redux
+  const orderRequest = useSelector(getOrderRequest); // Получаем статус запроса создания заказа из Redux
+  const orderModalData = useSelector(getOrderModalData); // Получаем данные для модального окна заказа из Redux
+  const authorized = useSelector(selectIsAuthenticated); // Проверяем, авторизован ли пользователь
+
+  // Обработчик нажатия на кнопку "Оформить заказ"
   const onOrderClick = () => {
     if (!authorized) {
-      return navigate('/login'); //проверяем авторизован ли пользователь
+      return navigate('/login');
     }
     if (!constructorItems.bun || orderRequest) return;
 
+    // Формируем массив ингредиентов для заказа
     const order = [
       constructorItems.bun?._id,
       ...constructorItems.ingredients.map((ingredient) => ingredient._id),
       constructorItems.bun?._id
-    ].filter(Boolean);
+    ].filter(Boolean); // Фильтруем, чтобы убрать потенциальные undefined значения
 
     dispatch(createOrder(order));
   };
 
+  // Обработчик закрытия модального окна заказа
   const closeOrderModal = () => {
     dispatch(clearOrder());
     navigate('/');
   };
 
+  // Подсчитываем общую стоимость заказа с использованием useMemo для оптимизации
   const price = useMemo(
     () =>
       (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
@@ -52,7 +58,7 @@ export const BurgerConstructor: FC = () => {
         (s: number, v: TConstructorIngredient) => s + v.price,
         0
       ),
-    [constructorItems]
+    [constructorItems] //Вычисление перезапускается только при изменении состава конструктора
   );
 
   return (

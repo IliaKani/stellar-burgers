@@ -9,6 +9,7 @@ import {
 import { useSelector } from '../../services/store';
 import { Navigate } from 'react-router-dom';
 
+//компонент страницы с формой авторизации
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 export const ProfileMenu: FC = () => {
   const { pathname } = useLocation();
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -22,5 +21,3 @@ export const ProfileMenu: FC = () => {
 
   return <ProfileMenuUI handleLogout={handleLogout} pathname={pathname} />;
 };
-
-//ToDo: поправить Readme, удалить консольлоги, комментарии todo, done, откомментировать основные моменты кода

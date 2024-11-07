@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeedsApi } from '@api';
 import { TOrder } from '@utils-types';
+import { getOrderByNumberApi } from '../../utils/burger-api';
+import { act } from 'react-dom/test-utils';
 
 type TStateFeed = {
   orders: TOrder[];
@@ -8,6 +10,7 @@ type TStateFeed = {
   totalToday: number;
   error: null | string;
   loading: boolean;
+  modalOrder: TOrder | null;
 };
 
 const initialState: TStateFeed = {
@@ -15,10 +18,23 @@ const initialState: TStateFeed = {
   total: 0,
   totalToday: 0,
   error: null,
-  loading: false
+  loading: false,
+  modalOrder: null
 };
 
 export const getFeedData = createAsyncThunk('feed/data', getFeedsApi);
+
+export const getOrderByNum = createAsyncThunk(
+  'feed/getOrder',
+  async (number: number, { rejectWithValue }) => {
+    try {
+      const response = await getOrderByNumberApi(number);
+      return response;
+    } catch (error) {
+      return rejectWithValue('Ошибка при получении ленты');
+    }
+  }
+);
 
 export const feedDataSlice = createSlice({
   name: 'feeddata',
@@ -38,6 +54,17 @@ export const feedDataSlice = createSlice({
       .addCase(getFeedData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Feed error';
+      })
+      .addCase(getOrderByNum.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getOrderByNum.fulfilled, (state, action) => {
+        state.loading = false;
+        state.modalOrder = action.payload.orders[0];
+      })
+      .addCase(getOrderByNum.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Feed error';
       });
   },
   selectors: {
@@ -45,7 +72,8 @@ export const feedDataSlice = createSlice({
     getTotalEmountOrders: (state) => state.total,
     getTotalEmountToday: (state) => state.totalToday,
     getLoading: (state) => state.loading,
-    getError: (state) => state.error
+    getError: (state) => state.error,
+    selectModalOrder: (state) => state.modalOrder
   }
 });
 

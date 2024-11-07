@@ -6,6 +6,7 @@ import { getFeedData } from '../../services/slices/FeedDataSlice';
 import { getFeedOrders, getLoading } from '../../services/slices/FeedDataSlice';
 import { useSelector, useDispatch } from '../../services/store';
 
+// компонент для страницы ленты заказов
 export const Feed: FC = () => {
   const dispatch = useDispatch();
   const loading = useSelector(getLoading);
