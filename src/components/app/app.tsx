@@ -99,9 +99,20 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+{/*Роуты для рендера контента по условию отсутствия фонового состояния, то есть когда пользователь открывает прямую ссылку*/}
         <Route path='*' element={<NotFound404 />} />
+        <Route path='/feed/:number' element={<OrderInfo />} />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
+        <Route
+          path='/profile/orders/:number'
+          element={
+            <ProtectedRoute>
+              <OrderInfo />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
-
+{/*Роуты для рендера модальных окон по условию наличия фонового состояния*/}
       {background && (
         <Routes>
           <Route
@@ -130,6 +141,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          <Route path='*' element={<NotFound404 />} />
         </Routes>
       )}
     </div>

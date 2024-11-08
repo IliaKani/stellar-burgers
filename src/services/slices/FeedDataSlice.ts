@@ -31,7 +31,7 @@ export const getOrderByNum = createAsyncThunk(
       const response = await getOrderByNumberApi(number);
       return response;
     } catch (error) {
-      return rejectWithValue('Ошибка при получении ленты');
+      return rejectWithValue('Error feed data');
     }
   }
 );

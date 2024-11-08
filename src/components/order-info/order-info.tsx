@@ -8,7 +8,7 @@ import {
   getOrderByNum
 } from '../../services/slices/FeedDataSlice';
 import { useSelector, useDispatch } from '../../services/store';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { selectOrderById } from '../../services/selector';
 
