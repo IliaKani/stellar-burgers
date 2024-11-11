@@ -22,7 +22,7 @@ export const Modal: FC<TModalProps> = memo(({ title, onClose, children }) => {
 
   // Рендеринг модального окна через портал
   return ReactDOM.createPortal(
-    <ModalUI title={title} onClose={onClose}>
+    <ModalUI title={title} onClose={onClose} data-cy='modal'>
       {children}
     </ModalUI>,
     modalRoot as HTMLDivElement

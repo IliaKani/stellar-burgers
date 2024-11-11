@@ -8,7 +8,7 @@ import { getConstructorItems } from '../../services/slices/BurgerConstructorSlic
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
   TIngredientsCategoryProps
->(({ title, titleRef, ingredients }, ref) => {
+>(({ title, titleRef, ingredients, ...rest }, ref) => {
   const burgerConstructor = useSelector(getConstructorItems);
 
   //счетчик для подсчета количества элементов массива конструктора, который мы получили выше. Если элемент === bun, то значение переменной counters*2
@@ -30,6 +30,7 @@ export const IngredientsCategory = forwardRef<
       ingredients={ingredients}
       ingredientsCounters={ingredientsCounters}
       ref={ref}
+      {...rest}
     />
   );
 });
