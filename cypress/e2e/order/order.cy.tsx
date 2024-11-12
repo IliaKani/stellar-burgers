@@ -1,3 +1,4 @@
+///<reference types="cypress"/>
 //проверка создания заказа
 describe('Order test', function () {
     this.beforeEach(function() {

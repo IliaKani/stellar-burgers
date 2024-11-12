@@ -11,7 +11,7 @@ import {
   logoutApi,
   forgotPasswordApi,
   resetPasswordApi
-} from '@api';
+} from '../../utils/burger-api';
 
 import { TRegisterData } from '../../utils/burger-api';
 

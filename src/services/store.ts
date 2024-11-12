@@ -21,6 +21,8 @@ const rootReducer = combineReducers({
   [userOrdersHistorySlice.name]: userOrdersHistorySlice.reducer
 });
 
+export { rootReducer };
+
 // Создаем Redux-хранилище с использованием корневого редьюсера
 const store = configureStore({
   reducer: rootReducer,
