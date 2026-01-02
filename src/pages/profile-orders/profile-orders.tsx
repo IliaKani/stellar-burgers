@@ -3,25 +3,17 @@ import { TOrder } from '@utils-types';
 import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import {
-  ordersHistory,
-  getUserOrdersLoading,
-  getUserOrdersHistory
-} from '../../services/slices/UserOrdersHistory';
-import { Preloader } from '@ui';
+  userOrdersSelector,
+  getOrdersThunk
+} from '../../services/slices/authSlice';
 
-//компонент страницы истории заказов
 export const ProfileOrders: FC = () => {
   const dispatch = useDispatch();
-  const isLoad = useSelector(getUserOrdersLoading);
-  const orders: TOrder[] = useSelector(getUserOrdersHistory);
+  const orders: TOrder[] = useSelector(userOrdersSelector);
 
   useEffect(() => {
-    dispatch(ordersHistory());
+    dispatch(getOrdersThunk());
   }, []);
-
-  if (isLoad) {
-    return <Preloader />;
-  }
 
   return <ProfileOrdersUI orders={orders} />;
 };

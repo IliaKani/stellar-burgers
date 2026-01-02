@@ -2,28 +2,24 @@ import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
 import { TOrder } from '@utils-types';
 import { FC, useEffect } from 'react';
-import { getFeedData } from '../../services/slices/FeedDataSlice';
-import { getFeedOrders, getLoading } from '../../services/slices/FeedDataSlice';
 import { useSelector, useDispatch } from '../../services/store';
+import { ordersSelector, getFeedsThunk } from '../../services/slices/feedSlice';
 
-// компонент для страницы ленты заказов
 export const Feed: FC = () => {
   const dispatch = useDispatch();
-  const loading = useSelector(getLoading);
+  const orders: TOrder[] = useSelector(ordersSelector);
 
   useEffect(() => {
-    dispatch(getFeedData()).then((result) => {});
+    dispatch(getFeedsThunk());
   }, [dispatch]);
 
-  const orders: TOrder[] = useSelector(getFeedOrders);
+  const handleGetFeeds = () => {
+    dispatch(getFeedsThunk());
+  };
 
-  if (!orders.length || loading) {
+  if (!orders.length) {
     return <Preloader />;
   }
 
-  const handleGetAllOrders = () => {
-    dispatch(getFeedData());
-  };
-
-  return <FeedUI orders={orders} handleGetFeeds={handleGetAllOrders} />;
+  return <FeedUI orders={orders} handleGetFeeds={handleGetFeeds} />;
 };
