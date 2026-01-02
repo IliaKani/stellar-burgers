@@ -7,6 +7,12 @@
   width: 520px;
 }
 
+.pageWrap {
+  margin: 120px auto;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
 .nutritional_values {
   display: flex;
   justify-content: space-between;
