@@ -1,0 +1,20 @@
+# deps
+node_modules/
+
+# builds
+dist/
+build/
+
+# coverage
+coverage/
+
+# env
+.env
+
+# logs
+*.log
+
+# OS/IDE
+.DS_Store
+.idea/
+.vscode/
