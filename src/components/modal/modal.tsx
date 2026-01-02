@@ -7,22 +7,19 @@ import { ModalUI } from '@ui';
 const modalRoot = document.getElementById('modals');
 
 export const Modal: FC<TModalProps> = memo(({ title, onClose, children }) => {
-  // Хук  для добавления и удаления обработчика нажатия клавиши Esc
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       e.key === 'Escape' && onClose();
     };
 
     document.addEventListener('keydown', handleEsc);
-    // Удаляем обработчик при размонтировании компонента
     return () => {
       document.removeEventListener('keydown', handleEsc);
     };
-  }, [onClose]); // Зависимость от функции onClose
+  }, [onClose]);
 
-  // Рендеринг модального окна через портал
   return ReactDOM.createPortal(
-    <ModalUI title={title} onClose={onClose} data-cy='modal'>
+    <ModalUI title={title} onClose={onClose}>
       {children}
     </ModalUI>,
     modalRoot as HTMLDivElement

@@ -3,23 +3,21 @@ import { BurgerConstructorElementUI } from '@ui';
 import { BurgerConstructorElementProps } from './type';
 import { useDispatch } from '../../services/store';
 import {
-  removeIngredient,
-  moveUpIngredient,
-  moveDownIngredient
-} from '../../services/slices/BurgerConstructorSlice';
+  upIngredient,
+  downIngredient,
+  removeIngredient
+} from '../../services/slices/constructorSlice';
 
-//компонент-обертка для элемента конструктора бургера с логикой, которая передается в компонент UI для рендера
 export const BurgerConstructorElement: FC<BurgerConstructorElementProps> = memo(
   ({ ingredient, index, totalItems }) => {
     const dispatch = useDispatch();
 
-    //переменные содержат функции слайса конструктора бургера для перемещения в списке ингридиента и его удаления
     const handleMoveDown = () => {
-      dispatch(moveDownIngredient(index));
+      dispatch(downIngredient(index));
     };
 
     const handleMoveUp = () => {
-      dispatch(moveUpIngredient(index));
+      dispatch(upIngredient(index));
     };
 
     const handleClose = () => {

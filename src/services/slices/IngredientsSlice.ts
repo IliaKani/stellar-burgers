@@ -1,52 +1,50 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { TIngredient } from '@utils-types';
+import { createSlice } from '@reduxjs/toolkit';
+import { TIngredient } from '../../utils/types';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '../../utils/burger-api';
 
-type TStateIngredients = {
-  ingredients: Array<TIngredient>;
-  loading: boolean;
-  error: null | string | undefined;
-};
+export interface IngredientsState {
+  ingredients: TIngredient[];
+  isIngredientsLoading: boolean;
+  error: string | null;
+}
 
-const initialState: TStateIngredients = {
+const initialState: IngredientsState = {
   ingredients: [],
-  loading: false,
+  isIngredientsLoading: false,
   error: null
 };
 
-export const getIngredients = createAsyncThunk(
+export const getIngredientsThunk = createAsyncThunk(
   'ingredients/getIngredients',
-  async () => {
-    const response = await getIngredientsApi();
-    return response;
-  }
+  async () => getIngredientsApi()
 );
 
 const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
+  selectors: {
+    ingredientsSelector: (state) => state.ingredients,
+    isIngredientsLoadingSelector: (state) => state.isIngredientsLoading
+  },
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers(builder) {
     builder
-      .addCase(getIngredients.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+
+      .addCase(getIngredientsThunk.pending, (state) => {
+        state.isIngredientsLoading = true;
       })
-      .addCase(getIngredients.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
+      .addCase(getIngredientsThunk.rejected, (state, action) => {
+        state.isIngredientsLoading = false;
+        state.error = action.error.message!;
       })
-      .addCase(getIngredients.fulfilled, (state, action) => {
-        state.loading = false;
+      .addCase(getIngredientsThunk.fulfilled, (state, action) => {
+        state.isIngredientsLoading = false;
         state.ingredients = action.payload;
       });
-  },
-  selectors: {
-    getIngredientsWithSelector: (state) => state.ingredients,
-    getLoadingStatus: (state) => state.loading
   }
 });
 
-export default ingredientsSlice;
-export const { getIngredientsWithSelector, getLoadingStatus } =
+export const { ingredientsSelector, isIngredientsLoadingSelector } =
   ingredientsSlice.selectors;
+export default ingredientsSlice.reducer;

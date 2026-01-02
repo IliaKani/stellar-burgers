@@ -1,39 +1,43 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { combineReducers } from '@reduxjs/toolkit';
-import ingredientsSlice from './slices/IngredientsSlice';
-import burgerConstructorSlice from './slices/BurgerConstructorSlice';
-import userStateSlice from './slices/UserInfoSlice';
-import feedDataSlice from './slices/FeedDataSlice';
-import userOrdersHistorySlice from './slices/UserOrdersHistory';
-
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { ThunkAction, ThunkDispatch, thunk } from 'redux-thunk';
 import {
   TypedUseSelectorHook,
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
 
-// Комбинируем все слайсы в один корневой редьюсер
-const rootReducer = combineReducers({
-  [burgerConstructorSlice.name]: burgerConstructorSlice.reducer,
-  [feedDataSlice.name]: feedDataSlice.reducer,
-  [ingredientsSlice.name]: ingredientsSlice.reducer,
-  [userStateSlice.name]: userStateSlice.reducer,
-  [userOrdersHistorySlice.name]: userOrdersHistorySlice.reducer
+import burgerConstructor from './slices/constructorSlice';
+import feed from './slices/feedSlice';
+import ingredients from './slices/ingredientsSlice';
+import order from './slices/orderSlice';
+import user from './slices/authSlice';
+
+export const rootReducer = combineReducers({
+  burgerConstructor,
+  feed,
+  ingredients,
+  order,
+  user
 });
 
-export { rootReducer };
-
-// Создаем Redux-хранилище с использованием корневого редьюсера
 const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production'
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+type TApplicationActions = any;
 
-export type AppDispatch = typeof store.dispatch;
+export type AppThunk<Return = void> = ThunkAction<
+  Return,
+  RootState,
+  unknown,
+  TApplicationActions
+>;
 
-// Создаем собственные хуки для использования dispatch и selector с типизацией
+export type RootState = ReturnType<typeof rootReducer>;
+
+export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
+
 export const useDispatch: () => AppDispatch = () => dispatchHook();
 export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
 

@@ -1,30 +1,27 @@
 import { FC, useState, SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { forgotPasswordApi } from '@api';
 import { ForgotPasswordUI } from '@ui-pages';
 
-//компонент страницы восстановления пароля
 export const ForgotPassword: FC = () => {
-  const [email, setEmail] = useState(''); // Локальное состояние для хранения email, введенного пользователем
-  const [error, setError] = useState<Error | null>(null); // Локальное состояние для хранения ошибок, которые могут возникнуть при отправке формы
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState<Error | null>(null);
 
-  // Хук для навигации между страницами
   const navigate = useNavigate();
 
-  // Обрабатывает событие отправки формы. Предотвращает перезагрузку страницы, отправляет запрос на сервер и обрабатывает успешный результат или ошибку.
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
 
-    setError(null); // Сбрасываем предыдущее состояние ошибки, если такое было
+    setError(null);
     forgotPasswordApi({ email })
       .then(() => {
-        localStorage.setItem('resetPassword', 'true'); // Если запрос успешен, сохраняем флаг в localStorage
-        navigate('/reset-password', { replace: true }); // Перенаправляем пользователя на страницу сброса пароля
+        localStorage.setItem('resetPassword', 'true');
+        navigate('/reset-password', { replace: true });
       })
-      .catch((err) => setError(err)); //если нет - сохр ошибку в локальное состояние
+      .catch((err) => setError(err));
   };
 
-  // Возвращаем JSX с компонентом пользовательского интерфейса страницы восстановления пароля
   return (
     <ForgotPasswordUI
       errorText={error?.message}

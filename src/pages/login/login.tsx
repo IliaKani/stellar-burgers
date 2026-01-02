@@ -1,40 +1,41 @@
-import { FC, SyntheticEvent, useState } from 'react';
+import { FC, SyntheticEvent, useState, useEffect } from 'react';
 import { LoginUI } from '@ui-pages';
-import { useDispatch } from '../../services/store';
-import { TLoginData } from '../../utils/burger-api';
+import { useDispatch, useSelector } from '../../services/store';
 import {
-  logInUser,
-  selectIsAuthenticated
-} from '../../services/slices/UserInfoSlice';
-import { useSelector } from '../../services/store';
-import { Navigate } from 'react-router-dom';
+  clearErrors,
+  errorSelector,
+  loginUserThunk,
+  isAuthCheckedSelector
+} from '../../services/slices/authSlice';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-//компонент страницы с формой авторизации
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
+  const error = useSelector(errorSelector);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isAuthChecked = useSelector(isAuthCheckedSelector);
 
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const from = location.state?.from?.pathname || '/';
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-
-    const userLoginData: TLoginData = {
-      email: email,
-      password: password
-    };
-    dispatch(logInUser(userLoginData));
+    const resultAction = await dispatch(loginUserThunk({ email, password }));
+    if (loginUserThunk.fulfilled.match(resultAction)) {
+      navigate(from, { replace: true });
+    }
   };
 
-  if (isAuthenticated) {
-    return <Navigate to={'/'} />;
-  }
+  useEffect(() => {
+    dispatch(clearErrors());
+  }, [dispatch]);
 
   return (
     <LoginUI
-      errorText=''
+      errorText={error!}
       email={email}
       setEmail={setEmail}
       password={password}

@@ -1,9 +1,9 @@
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { resetPasswordApi } from '@api';
 import { ResetPasswordUI } from '@ui-pages';
 
-//компонент страницы обновления пароля
 export const ResetPassword: FC = () => {
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
